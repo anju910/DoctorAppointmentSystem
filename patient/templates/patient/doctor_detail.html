@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{%extends 'patient/base.html'%}
+{%block body_block%}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="card mb-3" style="max-width: 540px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="{{doctor.image.url}}" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{doctor.doctor_name}}</h5>
+                        <p class="card-text">{{doctor.doctor_info}}</p>
+                        <p class="card-text">{{doctor.hospital_name}}</p>
+                        <p class="card-text"><small class="text-muted">{{doctor.specialization}}</small></p>
+                        <p class="card-text"><small class="text-muted">{{doctor.date}}</small></p>
+                        <p class="card-text"><small class="text-muted">{{doctor.start_time}}</small></p>
+                        <p class="card-text"><small class="text-muted">{{doctor.end_time}}</small></p>
+                        <p class="card-text"><small class="text-muted">{{doctor.availability}}</small></p>
+                        <a href="{%url 'book' doctor.id%}" class="btn btn-primary">Book</a>
+                        <a href="{%url 'patienthome'%}" class="btn btn-danger">Back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{%endblock%}

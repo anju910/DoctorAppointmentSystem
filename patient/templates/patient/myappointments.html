@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{%extends 'patient/base.html'%}
+{%block body_block%}
+<div class="container">
+    <div class="row">
+        {%for appointment in appointments%}
+        <div class="card mb-3 ms-2" style="max-width: 540px;">
+            <div class="row g-0">
+                <div class="col-md-4 p-2">
+                    <img src="{{appointment.doctor.image.url}}" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{appointment.doctor.doctor_name}}</h5>
+                        <p class="card-text">{{appointment.doctor.specialization}}</p>
+                        <p class="card-text">Date:{{appointment.date}}</p>
+                        <p class="card-text">Time:{{appointment.time}}</p>
+                        <p class="card-text">Status:{{appointment.status}}</p>
+                        <p class="card-text">Note:{{appointment.note}}</p>
+
+                    </div>
+                    <div class="card-body" >
+                        <a href="{%url 'appointmentremove' appointment.id%}" class="btn btn-primary mt-2">Cancell</a>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+</div>
+
+
+{%endblock%}
