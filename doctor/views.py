@@ -2,9 +2,24 @@ from django.shortcuts import render,redirect
 from .forms import DoctorCreationForm
 from .models import Doctors
 from django.contrib import messages
+from django.views.generic import TemplateView,DetailView,UpdateView
+from patient.models import Appointments
+from .forms import AppointmentUpdateForm
+from django.urls import reverse_lazy
 # Create your views here.
-def index(request):
-    return render(request,"doctorhomepage.html")
+class DoctorView(TemplateView):
+    template_name = "doctorhomepage.html"
+    context={}
+    def get(self, request, *args, **kwargs):
+        appointments=Appointments.objects.filter(status="pending")
+        self.context["appointments"]=appointments
+        approvedappointments = Appointments.objects.filter(status="approved")
+        self.context["approvedappointments"] = approvedappointments
+        appointment_count=Appointments.objects.filter(status="pending").count()
+        self.context["appointment_count"]=appointment_count
+        approved_count=Appointments.objects.filter(status="approved").count()
+        self.context["approved_count"]=approved_count
+        return render(request,self.template_name,self.context)
 
 def doctor_create(request):
     context={}
@@ -58,3 +73,16 @@ def doctor_remove(request,id):
     doctor=Doctors.objects.get(id=id)
     doctor.delete()
     return redirect("viewdoctors")
+
+
+class AppointmentDetail(DetailView):
+    template_name = "appointmentdetail.html"
+    model = Appointments
+    context_object_name = "appointment"
+    pk_url_kwarg = 'pk'
+class AppointmentUpdateView(UpdateView):
+    model = Appointments
+    form_class = AppointmentUpdateForm
+    template_name = "update.html"
+    pk_url_kwarg = 'id'
+    success_url = reverse_lazy("doctorhome")

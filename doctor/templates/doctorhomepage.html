@@ -1,10 +1,87 @@
 <!DOCTYPE html>
 {%extends 'base.html'%}
 {%block body_block%}
-<div class="container home">
-    <div class="text-center">
-            <h1>Doctor Appointment System</h1>
+<div class="row home">
+    <h1 class="one" style="text-align: center;">WELCOME TO Admin Home</h1>
 
+    <div class="row"><h4 class="" style="text-align: center;">DashBoard</h4></div>
+
+
+    <div class="row">
+        <div class="col-6">
+            <!--        <h3>Total number of orders</h3>-->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Total number of appointments #{{appointment_count}}
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <table class="table">
+                            <tr>
+                                <td>PatientName</td>
+                                <td>DoctorName</td>
+                                <td>Date</td>
+                                <td>Time</td>
+                                <td>Status</td>
+                                <td>Action</td>
+                            </tr>
+                            {%for appointment in appointments%}
+                            <tr>
+                                <td>{{appointment.patient_name}}</td>
+                                <td>{{appointment.doctor.doctor_name}}</td>
+                                <td>{{appointment.date}}</td>
+                                <td>{{appointment.time}}</td>
+                                <td>{{appointment.status}}</td>
+                                <td>
+                                    <a href="{%url 'appointmentdetail' appointment.id%}" class="btn btn-primary">View</a>
+                                    <a href="{%url 'updateappointment' appointment.id%}" class="btn btn-warning">Edit</a>
+                                </td>
+                            </tr>
+                            {%endfor%}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Approved appointments #{{approved_count}}
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <table class="table">
+                            <tr>
+                                <td>PatientName</td>
+                                <td>DoctorName</td>
+                                <td>Date</td>
+                                <td>Time</td>
+                            </tr>
+                            {%for appointment in approvedappointments%}
+                            <tr>
+                                <td>{{appointment.patient_name}}</td>
+                                <td>{{appointment.doctor.doctor_name}}</td>
+                                <td>{{appointment.date}}</td>
+                                <td>{{appointment.time}}</td>
+
+
+                            </tr>
+                            {%endfor%}
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
+
 {%endblock%}

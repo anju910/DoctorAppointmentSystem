@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{%extends 'base.html'%}
+{%block body_block%}
+
+
+<div class="container-fluid">
+    <div class="row mt-3">
+
+        <div class="col-4 border">
+                  <div class="card-body">
+                    <h5 class="card-title">Patient:{{appointment.patient_name}}</h5>
+                  </div>
+            <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Doctor:{{appointment.doctor.doctor_name}}</li>
+                    <li class="list-group-item">Phone:{{appointment.phone}}</li>
+                    <li class="list-group-item">Age:{{appointment.age}}</li>
+                    <li class="list-group-item">Date:{{appointment.date}}</li>
+                    <li class="list-group-item">Time:{{appointment.time}}</li>
+                    <li class="list-group-item">Note:{{appointment.note}}</li>
+                    <li class="list-group-item">Status:{{appointment.status}}</li>
+
+
+
+                  </ul>
+            <div class="card-body">
+                    <a href="{%url 'doctorhome'%}" class="btn btn-primary">Back</a>
+                  </div>
+
+
+
+                </div>
+        </div>
+        <div class="col-4"></div>
+    </div>
+</div>
+</div>
+{%endblock%}

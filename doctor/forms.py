@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from doctor.models import Doctors
+from patient.models import Appointments
 class DoctorCreationForm(ModelForm):
     class Meta:
         model=Doctors
@@ -18,3 +19,15 @@ class DoctorCreationForm(ModelForm):
 
         }
 
+class AppointmentUpdateForm(ModelForm):
+    class Meta:
+        model=Appointments
+        fields=[
+            "status","patient_name","time"
+        ]
+        widgets={
+            "status":forms.Select(attrs={"class":"form-select"}),
+            "patient_name": forms.TextInput(attrs={"class": "form-control","readonly":True}),
+            "time": forms.TextInput(attrs={"class": "form-control","type":"time"}),
+
+        }

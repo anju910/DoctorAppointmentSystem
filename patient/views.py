@@ -5,8 +5,8 @@ from django.contrib.auth import authenticate,login,logout
 from django.views.generic import TemplateView,ListView,DetailView,CreateView,DeleteView
 from django.contrib.auth.models import User
 from doctor.models import Doctors
-
-
+from.decorators import signin_required
+from django.utils.decorators import method_decorator
 
 
 class RegistrationView(TemplateView):
@@ -43,20 +43,23 @@ class SignInView(TemplateView):
             user=authenticate(request,username=username,password=password)
             if user:
                 login(request,user)
+                if user.is_superuser:
+                    return redirect("doctorhome")
+
                 return redirect("patienthome")
 
-
-class CustomerHome(ListView):
+@method_decorator(signin_required,name="dispatch")
+class PatientHome(ListView):
     template_name = "patient/patienthome.html"
     model = Doctors
     context_object_name = "doctors"
-
+@method_decorator(signin_required,name="dispatch")
 class DoctorDetail(DetailView):
     template_name = "patient/doctor_detail.html"
     model = Doctors
     context_object_name = "doctor"
     pk_url_kwarg = 'pk'
-
+@method_decorator(signin_required,name="dispatch")
 class AppointmentBookView(CreateView):
     template_name = "patient/appointment_book.html"
     form_class = forms.AppointmentForm
@@ -73,7 +76,7 @@ class AppointmentBookView(CreateView):
             appointment.save()
             return redirect("patienthome")
 
-
+@method_decorator(signin_required,name="dispatch")
 class MyAppointments(ListView):
     template_name = "patient/myappointments.html"
     context_object_name = "appointments"
@@ -82,7 +85,7 @@ class MyAppointments(ListView):
         queryset=self.model.objects.filter(user=self.request.user)
         return queryset
 
-
+@method_decorator(signin_required,name="dispatch")
 class CancelAppointment(DeleteView):
     model = Appointments
     def get(self, request, *args, **kwargs):
@@ -90,7 +93,7 @@ class CancelAppointment(DeleteView):
         order=Appointments.objects.get(id=order_id)
         order.delete()
         return redirect("myappointments")
-
+@method_decorator(signin_required,name="dispatch")
 class SignOutView(TemplateView):
     def get(self, request, *args, **kwargs):
         logout(request)
